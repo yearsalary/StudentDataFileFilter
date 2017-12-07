@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import service.DataMapper;
+import service.StudentDataMapper;
 import models.Student;
 import constants.CityNumber;
 import constants.ProfCode;
@@ -20,8 +22,12 @@ public class Driver {
 	private static int endLine;
 	private static FileInputStream inputStream = null;
 	private static FileOutputStream outputStream = null;
+	private static DataMapper<Student> dataMapper = null;
+	
 	
 	public static void main(String[] args) {
+		dataMapper = new StudentDataMapper();
+		
 		try {
 			requestUserInput();
 			switch(SDFileFilterConstant.PROBLEM_NUMBER) {
@@ -73,30 +79,9 @@ public class Driver {
 		inputStream.read(inputLinesByte, 0, SDFileFilterConstant.LINE_LENGTH * (endLine - startLine + 1)); //read file by a specified size.
 		inputLineStrings = new String(inputLinesByte, SDFileFilterConstant.DECODING_METHOD).split("\r\n"); //decode Byte to String with UTF-8 and split line.
 		for (int i = 0; i < inputLineStrings.length; i++)
-			students.add(createStudentFromString(inputLineStrings[i])); //parse and create new Student.
+			students.add(dataMapper.createModelFromString(inputLineStrings[i])); //parse and create new Student.
 		
 		return students;
-	}
-	
-	/**
-	 * parse and create new Student.
-	 * @param str
-	 * @return Student
-	 */
-	private static Student createStudentFromString(String str) {
-		int stuNum = Integer.parseUnsignedInt(str.substring(0, 6));
-		String email = str.substring(6, 10);
-		int musicScore = Integer.parseUnsignedInt(str.substring(10, 13).trim());
-		int sociologyScore = Integer.parseUnsignedInt(str.substring(13, 16).trim());
-		int ethicsScore = Integer.parseUnsignedInt(str.substring(16, 19).trim());
-		int artScore = Integer.parseUnsignedInt(str.substring(19, 22).trim());
-		int historyScore = Integer.parseUnsignedInt(str.substring(22, 25).trim());
-		int totalScore = Integer.parseUnsignedInt(str.substring(25, 28).trim());
-		char profCode = str.charAt(28);
-		char academicPerformance = str.charAt(29);
-		char cityNum = str.charAt(30);
-		
-		return new Student(stuNum, email, musicScore, sociologyScore, ethicsScore, artScore, historyScore, totalScore, profCode, academicPerformance, cityNum);
 	}
 	
 	/**
