@@ -26,6 +26,7 @@ public class Driver {
 	private static FileOutputStream outputStream = null;
 	private static DataMapper<Student> dataMapper = null;
 	private static DataLoader<Student> dataLoader = null;
+	private static List<Student> modelList = null;
 	
 	public static void main(String[] args) {
 		dataMapper = new StudentDataMapper();
@@ -33,11 +34,12 @@ public class Driver {
 		
 		try {
 			requestUserInput();
+			modelList = createStudentsFromData();
 			switch(SDFileFilterConstant.PROBLEM_NUMBER) {
-				case 1: solveProblem_01(createStudentsFromData()); break;
-				case 2:	solveProblem_02(createStudentsFromData()); break;
-				case 3:	solveProblem_03(createStudentsFromData()); break;
-				case 4:	solveProblem_04(createStudentsFromData()); break;
+				case 1: solveProblem_01(); break;
+				case 2:	solveProblem_02(); break;
+				case 3:	solveProblem_03(); break;
+				case 4:	solveProblem_04(); break;
 			}
 		} catch (Exception e) {
 			System.out.println("Exception: "+e.getMessage());
@@ -68,7 +70,7 @@ public class Driver {
 	}
 	
 	/**
-	 * create students.
+	 *  create students.
 	 * @return List
 	 * @throws IOException
 	 */
@@ -102,11 +104,11 @@ public class Driver {
 	 * @throws ListSizeUnder5Exception 
 	 * @throws IOException 
 	 */
-	private static void solveProblem_01(List<Student> students) throws IOException, ListSizeUnder5Exception {
+	private static void solveProblem_01() throws IOException, ListSizeUnder5Exception {
 		List<Student> filteredStudents = null;
 		int result = 0;
 		
-		filteredStudents = students.stream().filter(student -> 'A' == student.getCityNum())
+		filteredStudents = modelList.stream().filter(student -> 'A' == student.getCityNum())
 						 					.collect(Collectors.toList());
 		filteredStudents.sort((Student s1, Student s2) -> ((s1.getArtScore() + s1.getEthicsScore())
 															- (s2.getArtScore() + s2.getEthicsScore())));
@@ -121,12 +123,12 @@ public class Driver {
 	 * @param students
 	 * @throws IOException
 	 */
-	private static void solveProblem_02(List<Student> students) throws IOException {
+	private static void solveProblem_02() throws IOException {
 		List<Student> filteredStudents = null;
 		Student resultStudent = null;
 		int result = 0;
 		
-		filteredStudents = students.stream().filter(student -> 'A' == student.getCityNum())
+		filteredStudents = modelList.stream().filter(student -> 'A' == student.getCityNum())
  											.collect(Collectors.toList());
 		resultStudent = filteredStudents.stream().min((Student s1, Student s2) -> ((s1.getArtScore() + s1.getEthicsScore())
 																					- (s2.getArtScore() + s2.getEthicsScore()))).get();
@@ -139,11 +141,11 @@ public class Driver {
 	 * @param students
 	 * @throws IOException
 	 */
-	private static void solveProblem_03(List<Student> students) throws IOException {
+	private static void solveProblem_03() throws IOException {
 		List<Student> filteredStudents = null;
 		int result = 0;
 		
-		filteredStudents = students.stream().filter(student -> 150 <= student.getMusicScore() + student.getSociologyScore())
+		filteredStudents = modelList.stream().filter(student -> 150 <= student.getMusicScore() + student.getSociologyScore())
 											.collect(Collectors.toList());
 		for(Student student : filteredStudents) {
 			for(ProfCode profCode : ProfCode.values()) {
@@ -162,11 +164,11 @@ public class Driver {
 	 * @param students
 	 * @throws IOException
 	 */
-	private static void solveProblem_04(List<Student> students) throws IOException {
+	private static void solveProblem_04() throws IOException {
 		List<Student> filteredStudents = null;
 		int result = 0;
 		
-		filteredStudents = students.stream().filter(student -> 'A' == student.getAcademicPerformance() || 'B' == student.getAcademicPerformance())
+		filteredStudents = modelList.stream().filter(student -> 'A' == student.getAcademicPerformance() || 'B' == student.getAcademicPerformance())
 											.collect(Collectors.toList());
 		for(Student student : filteredStudents) {
 			for(CityNumber cityNumber : CityNumber.values()) {
