@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import service.DataLoader;
 import service.DataMapper;
+import service.StudentDataLoader;
 import service.StudentDataMapper;
 import models.Student;
 import constants.CityNumber;
@@ -23,10 +25,11 @@ public class Driver {
 	private static FileInputStream inputStream = null;
 	private static FileOutputStream outputStream = null;
 	private static DataMapper<Student> dataMapper = null;
-	
+	private static DataLoader<Student> dataLoader = null;
 	
 	public static void main(String[] args) {
 		dataMapper = new StudentDataMapper();
+		dataLoader = new StudentDataLoader();
 		
 		try {
 			requestUserInput();
@@ -65,19 +68,14 @@ public class Driver {
 	}
 	
 	/**
-	 * read lines within a specified range from file and create students.
+	 * create students.
 	 * @return List
 	 * @throws IOException
 	 */
 	private static List<Student> createStudentsFromData() throws IOException {
-		byte[] inputLinesByte = new byte[SDFileFilterConstant.LINE_LENGTH * (endLine - startLine + 1)];
-		String[] inputLineStrings = null;
 		List<Student> students = new ArrayList<Student>();
+		String[] inputLineStrings = dataLoader.loadDataFromStartLineToEndLine(startLine, endLine);
 		
-		inputStream = new FileInputStream(SDFileFilterConstant.INPUT_FILE_PATH);
-		inputStream.skip(SDFileFilterConstant.LINE_LENGTH * (startLine - 1)); //set offset.
-		inputStream.read(inputLinesByte, 0, SDFileFilterConstant.LINE_LENGTH * (endLine - startLine + 1)); //read file by a specified size.
-		inputLineStrings = new String(inputLinesByte, SDFileFilterConstant.DECODING_METHOD).split("\r\n"); //decode Byte to String with UTF-8 and split line.
 		for (int i = 0; i < inputLineStrings.length; i++)
 			students.add(dataMapper.createModelFromString(inputLineStrings[i])); //parse and create new Student.
 		
