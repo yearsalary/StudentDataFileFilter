@@ -1,9 +1,10 @@
-package service;
+package services.solution;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import services.UserInteractionService;
 import constants.CityNumber;
 import constants.ProfCode;
 import constants.SDFileFilterConstant;
@@ -76,5 +77,4 @@ public class StudentSolutionService implements SolutionService<Student>{
 		}
 		userInteractionService.printAndWriteAnswer(result, SDFileFilterConstant.OUTPUT_FILE_NAME[3]);
 	}
-
 }

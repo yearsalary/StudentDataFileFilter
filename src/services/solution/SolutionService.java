@@ -1,7 +1,5 @@
-package service;
-
+package services.solution;
 import java.io.IOException;
-
 import excepts.ListSizeUnder5Exception;
 
 public interface SolutionService<T> {

@@ -1,4 +1,4 @@
-package service;
+package services.loader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
