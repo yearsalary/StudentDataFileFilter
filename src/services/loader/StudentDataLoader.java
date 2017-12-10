@@ -4,9 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import constants.SDFileFilterConstant;
-import models.Student;
 
-public class StudentDataLoader implements DataLoader<Student> {
+public class StudentDataLoader implements DataLoader {
 	/***
 	 * read lines within a specified range from file
 	 */

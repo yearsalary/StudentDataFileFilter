@@ -5,25 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import constants.SDFileFilterConstant;
-import models.Student;
 import services.UserInteractionService;
 import services.loader.DataLoader;
-import services.loader.StudentDataLoader;
 import services.mapper.DataMapper;
-import services.mapper.StudentDataMapper;
 import services.solution.SolutionService;
-import services.solution.StudentSolutionService;
 
 public class DataFileFilter<T> {
 	private List<T> modelList = null;
 	private DataMapper<T> dataMapper = null;
-	private DataLoader<T> dataLoader = null;
+	private DataLoader dataLoader = null;
 	private UserInteractionService userInteractionService = null;
 	private SolutionService<T> solutionService = null;
 	
 	public DataFileFilter(List<T> modelList,
 			DataMapper<T> dataMapper,
-			DataLoader<T> dataLoader,
+			DataLoader dataLoader,
 			UserInteractionService userInteractionService,
 			SolutionService<T> solutionService) {
 		this.modelList = modelList;

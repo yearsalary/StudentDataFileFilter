@@ -19,7 +19,7 @@ public class StudentDataFileFilterFactory implements DataFileFilterFactory {
 	public DataFileFilter<?> getDataFileFilter() {
 		List<Student> students = new ArrayList<Student>();
 		DataMapper<Student> studentDataMapper = new StudentDataMapper();
-		DataLoader<Student> studentDataLoader = new StudentDataLoader();
+		DataLoader studentDataLoader = new StudentDataLoader();
 		UserInteractionService userInteractionService = new UserInteractionService();
 		SolutionService<Student> studentSolutionService = new StudentSolutionService(students, userInteractionService);
 		
